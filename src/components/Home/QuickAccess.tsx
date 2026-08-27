@@ -51,49 +51,84 @@ export default function QuickAccess() {
                 href={item.href}
                 sx={{
                   flex: 1,
+                  minHeight: 220,
+                  display: "flex",
                   textDecoration: "none",
                   color: "inherit",
-                  p: 3,
-                  border: 1,
+                  p: { xs: 2.5, md: 3 },
+                  border: "1px solid",
                   borderColor: "divider",
                   borderRadius: 3,
                   bgcolor: "background.paper",
-                  transition: "all 0.2s ease",
+                  position: "relative",
+                  overflow: "hidden",
+
+                  transition:
+                    "transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease",
+
                   "&:hover": {
+                    transform: "translateY(-4px)",
                     borderColor: "primary.main",
-                    transform: "translateY(-3px)",
-                    boxShadow: "0 8px 25px rgba(15, 23, 42, 0.08)",
+                    boxShadow: "0 10px 30px rgba(23, 33, 31, 0.09)",
+
+                    "& .quick-access-icon": {
+                      transform: "scale(1.05)",
+                      bgcolor: "primary.main",
+                      color: "primary.contrastText",
+                    },
+
+                    "& .quick-access-arrow": {
+                      transform: "translateX(-5px)",
+                    },
                   },
                 }}
               >
-                <Stack spacing={2}>
+                <Stack
+                  spacing={2}
+                  sx={{
+                    width: "100%",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  {/* Icon */}
                   <Box
+                    className="quick-access-icon"
                     sx={{
-                      width: 48,
-                      height: 48,
+                      width: 50,
+                      height: 50,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: 2,
-                      bgcolor: "rgba(37, 99, 235, 0.08)",
+                      bgcolor: "primary.light",
                       color: "primary.main",
+
+                      transition:
+                        "transform 0.25s ease, background-color 0.25s ease, color 0.25s ease",
                     }}
                   >
-                    <Icon />
+                    <Icon sx={{ fontSize: 25 }} />
                   </Box>
 
-                  <Typography variant="h6" fontWeight={600}>
-                    {item.title}
-                  </Typography>
+                  {/* Content */}
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="h6" fontWeight={700} sx={{ mb: 1 }}>
+                      {item.title}
+                    </Typography>
 
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ lineHeight: 1.9 }}
-                  >
-                    {item.description}
-                  </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        lineHeight: 1.9,
+                        maxWidth: 300,
+                      }}
+                    >
+                      {item.description}
+                    </Typography>
+                  </Box>
 
+                  {/* Link */}
                   <Stack
                     direction="row"
                     alignItems="center"
@@ -102,15 +137,32 @@ export default function QuickAccess() {
                       color: "primary.main",
                       fontSize: "0.9rem",
                       fontWeight: 500,
-                      alignItems: "center",
                     }}
                   >
-                    <Typography>مشاهده</Typography>
+                    <Typography
+                      component="span"
+                      sx={{
+                        fontSize: "inherit",
+                        fontWeight: "inherit",
+                      }}
+                    >
+                      مشاهده
+                    </Typography>
+
                     <Box
-                      sx={{ display: "flex", alignItems: "center", pt: "5px" }}
+                      className="quick-access-arrow"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        pt: "4px",
+                        transition: "transform 0.25s ease",
+                      }}
                     >
                       <GrFormPrevious
-                        style={{ width: "20px", height: "20px" }}
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                        }}
                       />
                     </Box>
                   </Stack>
