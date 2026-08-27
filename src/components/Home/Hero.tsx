@@ -1,6 +1,6 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import Link from "next/link";
+import { GrFormPrevious } from "react-icons/gr";
 
 export default function Hero() {
   return (
@@ -89,20 +89,40 @@ export default function Hero() {
           <Stack
             direction={{ xs: "column", sm: "row" }}
             spacing={1.5}
-            sx={{ pt: 1 }}
+            sx={{ pt: 1, gap: 2, alignItems: "center" }}
           >
             <Button
               component={Link}
               href="/tutorials"
               variant="contained"
               size="large"
-              endIcon={<ArrowBackRoundedIcon />}
               sx={{
                 px: 3.5,
                 py: 1.4,
+                gap: 0.5,
+
+                "&:hover .arrow": {
+                  transform: "translateX(-10px)",
+                },
               }}
             >
               شروع یادگیری
+              <Box
+                className="arrow"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  pt: "3px",
+                  transition: "transform 0.3s ease-in-out",
+                }}
+              >
+                <GrFormPrevious
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                  }}
+                />
+              </Box>
             </Button>
 
             <Button

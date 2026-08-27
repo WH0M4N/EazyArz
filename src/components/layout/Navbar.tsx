@@ -99,7 +99,9 @@ export default function Navbar() {
               component={Link}
               href="/profile"
               variant="outlined"
-              startIcon={<AccountCircleOutlinedIcon />}
+              startIcon={
+                <AccountCircleOutlinedIcon style={{ marginLeft: "12px" }} />
+              }
               sx={{
                 mr: 1,
                 borderColor: "divider",

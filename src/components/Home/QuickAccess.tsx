@@ -2,8 +2,8 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import NewspaperOutlinedIcon from "@mui/icons-material/NewspaperOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
-import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import Link from "next/link";
+import { GrFormPrevious } from "react-icons/gr";
 
 const items = [
   {
@@ -40,7 +40,7 @@ export default function QuickAccess() {
           </Typography>
         </Stack>
 
-        <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
+        <Stack direction={{ xs: "column", md: "row" }} sx={{ gap: 2 }}>
           {items.map((item) => {
             const Icon = item.icon;
 
@@ -102,10 +102,17 @@ export default function QuickAccess() {
                       color: "primary.main",
                       fontSize: "0.9rem",
                       fontWeight: 500,
+                      alignItems: "center",
                     }}
                   >
-                    <span>مشاهده</span>
-                    <ArrowBackRoundedIcon fontSize="small" />
+                    <Typography>مشاهده</Typography>
+                    <Box
+                      sx={{ display: "flex", alignItems: "center", pt: "5px" }}
+                    >
+                      <GrFormPrevious
+                        style={{ width: "20px", height: "20px" }}
+                      />
+                    </Box>
                   </Stack>
                 </Stack>
               </Box>

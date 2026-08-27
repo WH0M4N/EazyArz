@@ -9,39 +9,42 @@ const theme = createTheme({
     mode: "light",
 
     primary: {
-      main: "#2563EB",
+      main: "#0F766E",
+      dark: "#115E59",
+      light: "#14B8A6",
+      contrastText: "#FFFFFF",
     },
 
     secondary: {
-      main: "#0F172A",
+      main: "#C99A2E",
+      dark: "#A67C1F",
+      light: "#E5C76B",
+      contrastText: "#17211F",
     },
 
     background: {
-      default: "#F8FAFC",
+      default: "#F6F7F4",
       paper: "#FFFFFF",
     },
 
     text: {
-      primary: "#0F172A",
-      secondary: "#64748B",
+      primary: "#17211F",
+      secondary: "#68736F",
     },
 
-    divider: "#E2E8F0",
+    divider: "#E2E7E4",
 
     success: {
-      main: "#16A34A",
+      main: "#16805B",
     },
 
     error: {
-      main: "#DC2626",
+      main: "#C94B4B",
     },
   },
 
   typography: {
     fontFamily: '"EasyArzFont", sans-serif',
-
-    fontWeightRegular: 400,
-    fontWeightBold: 700,
 
     h1: {
       fontWeight: 700,
@@ -56,15 +59,23 @@ const theme = createTheme({
     },
 
     h4: {
-      fontWeight: 600,
+      fontWeight: 700,
     },
 
     h5: {
-      fontWeight: 600,
+      fontWeight: 700,
     },
 
     h6: {
       fontWeight: 600,
+    },
+
+    body1: {
+      fontWeight: 400,
+    },
+
+    body2: {
+      fontWeight: 400,
     },
 
     button: {
@@ -94,14 +105,16 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 12,
-          boxShadow: "0 1px 3px rgba(15, 23, 42, 0.08)",
+          boxShadow: "0 2px 8px rgba(23, 33, 31, 0.06)",
         },
       },
     },
 
-    MuiTextField: {
-      defaultProps: {
-        variant: "outlined",
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+        },
       },
     },
   },
