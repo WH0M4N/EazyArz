@@ -1,38 +1,39 @@
 "use client";
-
 import {
   AppBar,
-  Box,
   Button,
   Container,
   IconButton,
-  Menu,
-  MenuItem,
+  Stack,
   Toolbar,
+  Tooltip,
+  Typography,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { useState } from "react";
+
+import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
+import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+
 import Link from "next/link";
-import Image from "next/image";
-import logo from "../../assests/Images/logo.png";
+import { useAppTheme } from "../providers/ThemeProvider";
 
 const navItems = [
-  { label: "خانه", href: "/" },
-  { label: "اخبار", href: "/news" },
-  { label: "آموزش", href: "/tutorials" },
+  {
+    label: "خانه",
+    href: "/",
+  },
+  {
+    label: "اخبار",
+    href: "/news",
+  },
+  {
+    label: "آموزش",
+    href: "/tutorials",
+  },
 ];
 
 export default function Navbar() {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const { mode, toggleTheme } = useAppTheme();
 
   return (
     <AppBar
@@ -41,7 +42,7 @@ export default function Navbar() {
       sx={{
         bgcolor: "background.paper",
         color: "text.primary",
-        borderBottom: 1,
+        borderBottom: "1px solid",
         borderColor: "divider",
       }}
     >
@@ -49,32 +50,37 @@ export default function Navbar() {
         <Toolbar
           disableGutters
           sx={{
-            minHeight: { xs: 64, md: 72 },
+            minHeight: {
+              xs: 64,
+              md: 72,
+            },
+            display: "flex",
             justifyContent: "space-between",
           }}
         >
           {/* Logo */}
-          <Link
+          <Typography
+            component={Link}
             href="/"
-            style={{
+            sx={{
               textDecoration: "none",
-              color: "inherit",
+              color: "primary.main",
+              fontSize: "1.4rem",
+              fontWeight: 800,
+              letterSpacing: "-0.5px",
             }}
           >
-            <Image
-              src={logo}
-              alt="logo"
-              objectFit="cover"
-              style={{ width: "100px", height: "40px" }}
-            />
-          </Link>
-
-          {/* Desktop navigation */}
-          <Box
+            ایزی ارز
+          </Typography>
+          {/* Desktop Navigation */}
+          <Stack
+            direction="row"
+            spacing={0.5}
             sx={{
-              display: { xs: "none", md: "flex" },
-              alignItems: "center",
-              gap: 1,
+              display: {
+                xs: "none",
+                md: "flex",
+              },
             }}
           >
             {navItems.map((item) => (
@@ -83,71 +89,80 @@ export default function Navbar() {
                 component={Link}
                 href={item.href}
                 sx={{
+                  color: "text.secondary",
+                  fontWeight: 600,
                   px: 2,
-                  color: "text.primary",
+
                   "&:hover": {
                     color: "primary.main",
-                    bgcolor: "rgba(37, 99, 235, 0.06)",
+                    bgcolor: "transparent",
                   },
                 }}
               >
                 {item.label}
               </Button>
             ))}
+          </Stack>
+          {/* Actions */}
+          <Stack direction="row" alignItems="center" spacing={1}>
+            {/* Theme Switch */}
+            <Tooltip title={mode === "light" ? "حالت تاریک" : "حالت روشن"}>
+              <IconButton
+                onClick={toggleTheme}
+                aria-label="تغییر حالت نمایش"
+                sx={{
+                  width: 42,
+                  height: 42,
+                  border: "1px solid",
+                  borderColor: "divider",
+                  borderRadius: 2,
 
+                  transition:
+                    "transform 0.25s ease, background-color 0.25s ease",
+
+                  "&:hover": {
+                    bgcolor: "action.hover",
+                    transform: "rotate(15deg)",
+                  },
+                }}
+              >
+                {mode === "light" ? (
+                  <DarkModeRoundedIcon />
+                ) : (
+                  <LightModeRoundedIcon />
+                )}
+              </IconButton>
+            </Tooltip>
+
+            {/* Profile Button */}
             <Button
               component={Link}
               href="/profile"
-              variant="outlined"
-              startIcon={
-                <AccountCircleOutlinedIcon style={{ marginLeft: "12px" }} />
-              }
+              variant="contained"
               sx={{
-                mr: 1,
-                borderColor: "divider",
-                color: "text.primary",
+                px: 2.5,
+                display: {
+                  xs: "none",
+                  sm: "inline-flex",
+                },
               }}
             >
-              پروفایل
+              حساب کاربری
             </Button>
-          </Box>
 
-          {/* Mobile navigation */}
-          <Box sx={{ display: { xs: "block", md: "none" } }}>
+            {/* Mobile Menu */}
+
             <IconButton
-              onClick={handleOpen}
-              aria-label="باز کردن منو"
-              sx={{ color: "text.primary" }}
-            >
-              <MenuIcon />
-            </IconButton>
-
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
+              sx={{
+                display: {
+                  xs: "flex",
+                  md: "none",
+                },
               }}
             >
-              {navItems.map((item) => (
-                <MenuItem
-                  key={item.href}
-                  component={Link}
-                  href={item.href}
-                  onClick={handleClose}
-                  sx={{ minWidth: 150 }}
-                >
-                  {item.label}
-                </MenuItem>
-              ))}
-
-              <MenuItem component={Link} href="/profile" onClick={handleClose}>
-                پروفایل
-              </MenuItem>
-            </Menu>
-          </Box>
+              <MenuRoundedIcon />
+            </IconButton>
+          </Stack>
         </Toolbar>
       </Container>
     </AppBar>
