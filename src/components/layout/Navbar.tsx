@@ -1,9 +1,15 @@
 "use client";
+
 import {
   AppBar,
+  Box,
   Button,
   Container,
+  Drawer,
   IconButton,
+  List,
+  ListItemButton,
+  ListItemText,
   Stack,
   Toolbar,
   Tooltip,
@@ -13,9 +19,16 @@ import {
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
+import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 
 import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+
 import { useAppTheme } from "../providers/ThemeProvider";
+import logo from "../../assests/Images/logo.png";
 
 const navItems = [
   {
@@ -35,136 +48,332 @@ const navItems = [
 export default function Navbar() {
   const { mode, toggleTheme } = useAppTheme();
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
-    <AppBar
-      position="sticky"
-      elevation={0}
-      sx={{
-        bgcolor: "background.paper",
-        color: "text.primary",
-        borderBottom: "1px solid",
-        borderColor: "divider",
-      }}
-    >
-      <Container maxWidth="lg">
-        <Toolbar
-          disableGutters
-          sx={{
-            minHeight: {
-              xs: 64,
-              md: 72,
-            },
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          {/* Logo */}
-          <Typography
-            component={Link}
-            href="/"
+    <>
+      <AppBar
+        position="sticky"
+        elevation={0}
+        sx={{
+          bgcolor: "background.paper",
+          color: "text.primary",
+          borderBottom: "1px solid",
+          borderColor: "divider",
+        }}
+      >
+        <Container maxWidth="lg">
+          <Toolbar
+            disableGutters
             sx={{
-              textDecoration: "none",
-              color: "primary.main",
-              fontSize: "1.4rem",
-              fontWeight: 800,
-              letterSpacing: "-0.5px",
-            }}
-          >
-            ایزی ارز
-          </Typography>
-          {/* Desktop Navigation */}
-          <Stack
-            direction="row"
-            spacing={0.5}
-            sx={{
-              display: {
-                xs: "none",
-                md: "flex",
+              minHeight: {
+                xs: 58,
+                md: 64,
               },
+              height: {
+                xs: 58,
+                md: 64,
+              },
+              display: "flex",
+              justifyContent: "space-between",
             }}
           >
-            {navItems.map((item) => (
+            {/* Logo */}
+            <Box
+              component={Link}
+              href="/"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                textDecoration: "none",
+                height: "100%",
+              }}
+            >
+              <Image
+                src={logo}
+                alt="EasyArz"
+                width={120}
+                height={70}
+                priority
+                style={{
+                  width: "120px",
+                  height: "55px",
+                  objectFit: "contain",
+                }}
+              />
+            </Box>
+            {/* Desktop Navigation */}
+            <Stack
+              direction="row"
+              spacing={0.25}
+              sx={{
+                display: {
+                  xs: "none",
+                  md: "flex",
+                },
+              }}
+            >
+              {navItems.map((item) => (
+                <Button
+                  key={item.href}
+                  component={Link}
+                  href={item.href}
+                  sx={{
+                    minWidth: "auto",
+                    px: 1.75,
+                    py: 0.75,
+                    color: "text.secondary",
+                    fontWeight: 600,
+
+                    "&:hover": {
+                      color: "primary.main",
+                      bgcolor: "transparent",
+                    },
+                  }}
+                >
+                  {item.label}
+                </Button>
+              ))}
+            </Stack>
+            {/* Actions */}
+            <Stack direction="row" alignItems="center" spacing={1}>
+              {/* Theme */}
+
+              <Tooltip title={mode === "light" ? "حالت تاریک" : "حالت روشن"}>
+                <IconButton
+                  onClick={toggleTheme}
+                  aria-label="تغییر حالت نمایش"
+                  sx={{
+                    width: 38,
+                    height: 38,
+                    border: "1px solid",
+                    borderColor: "divider",
+                    borderRadius: 2,
+
+                    transition:
+                      "transform 0.2s ease, background-color 0.2s ease",
+
+                    "&:hover": {
+                      bgcolor: "action.hover",
+                      transform: "rotate(12deg)",
+                    },
+                  }}
+                >
+                  {mode === "light" ? (
+                    <DarkModeRoundedIcon sx={{ fontSize: 20 }} />
+                  ) : (
+                    <LightModeRoundedIcon sx={{ fontSize: 20 }} />
+                  )}
+                </IconButton>
+              </Tooltip>
+
+              {/* Desktop Profile */}
+
               <Button
-                key={item.href}
                 component={Link}
-                href={item.href}
+                href="/profile"
+                variant="contained"
+                startIcon={
+                  <PersonOutlineRoundedIcon
+                    sx={{
+                      marginLeft: "10px",
+                    }}
+                  />
+                }
                 sx={{
-                  color: "text.secondary",
+                  minHeight: 38,
+                  pl: 2,
+                  pr: 1,
+                  borderRadius: 2,
                   fontWeight: 600,
-                  px: 2,
+                  marginX: "12px !important",
+
+                  display: {
+                    xs: "none",
+                    sm: "inline-flex",
+                  },
+
+                  transition: "transform 0.2s ease, box-shadow 0.2s ease",
 
                   "&:hover": {
-                    color: "primary.main",
-                    bgcolor: "transparent",
+                    transform: "translateY(-1px)",
+                    boxShadow: "0 5px 14px rgba(15, 118, 110, 0.2)",
                   },
                 }}
               >
-                {item.label}
+                حساب کاربری
               </Button>
-            ))}
-          </Stack>
-          {/* Actions */}
-          <Stack direction="row" alignItems="center" spacing={1}>
-            {/* Theme Switch */}
-            <Tooltip title={mode === "light" ? "حالت تاریک" : "حالت روشن"}>
+
+              {/* Mobile Menu Button */}
+
               <IconButton
-                onClick={toggleTheme}
-                aria-label="تغییر حالت نمایش"
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="باز کردن منو"
                 sx={{
-                  width: 42,
-                  height: 42,
+                  width: 40,
+                  height: 40,
+
+                  display: {
+                    xs: "flex",
+                    md: "none",
+                  },
+
                   border: "1px solid",
                   borderColor: "divider",
                   borderRadius: 2,
 
-                  transition:
-                    "transform 0.25s ease, background-color 0.25s ease",
+                  transition: "background-color 0.2s ease, transform 0.2s ease",
 
                   "&:hover": {
                     bgcolor: "action.hover",
-                    transform: "rotate(15deg)",
+                    transform: "translateY(-1px)",
                   },
                 }}
               >
-                {mode === "light" ? (
-                  <DarkModeRoundedIcon />
-                ) : (
-                  <LightModeRoundedIcon />
-                )}
+                <MenuRoundedIcon sx={{ fontSize: 23 }} />
               </IconButton>
-            </Tooltip>
+            </Stack>
+          </Toolbar>
+        </Container>
+      </AppBar>
 
-            {/* Profile Button */}
-            <Button
+      {/* ================= MOBILE DRAWER ================= */}
+
+      <Drawer
+        anchor="right"
+        open={mobileMenuOpen}
+        onClose={closeMobileMenu}
+        PaperProps={{
+          sx: {
+            width: {
+              xs: "82%",
+              sm: 360,
+            },
+            bgcolor: "background.paper",
+            color: "text.primary",
+          },
+        }}
+      >
+        {/* Drawer Header */}
+
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{
+            px: 2,
+            height: 64,
+            borderBottom: "1px solid",
+            borderColor: "divider",
+          }}
+        >
+          <Typography
+            sx={{
+              fontWeight: 700,
+              fontSize: "1.1rem",
+            }}
+          >
+            منوی ایزی ارز
+          </Typography>
+
+          <IconButton
+            onClick={closeMobileMenu}
+            aria-label="بستن منو"
+            size="small"
+          >
+            <CloseRoundedIcon />
+          </IconButton>
+        </Stack>
+
+        {/* Navigation */}
+
+        <List
+          disablePadding
+          sx={{
+            px: 1.5,
+            py: 2,
+          }}
+        >
+          {navItems.map((item) => (
+            <ListItemButton
+              key={item.href}
               component={Link}
-              href="/profile"
-              variant="contained"
+              href={item.href}
+              onClick={closeMobileMenu}
               sx={{
-                px: 2.5,
-                display: {
-                  xs: "none",
-                  sm: "inline-flex",
+                minHeight: 48,
+                borderRadius: 2,
+                mb: 0.5,
+                px: 2,
+
+                "&:hover": {
+                  bgcolor: "action.hover",
+                  color: "primary.main",
                 },
               }}
             >
-              حساب کاربری
-            </Button>
+              <ListItemText
+                primary={item.label}
+                primaryTypographyProps={{
+                  fontWeight: 600,
+                }}
+              />
 
-            {/* Mobile Menu */}
+              <ArrowBackIosNewRoundedIcon
+                sx={{
+                  fontSize: 15,
+                  color: "text.secondary",
+                }}
+              />
+            </ListItemButton>
+          ))}
 
-            <IconButton
+          {/* Profile */}
+
+          <ListItemButton
+            component={Link}
+            href="/profile"
+            onClick={closeMobileMenu}
+            sx={{
+              minHeight: 52,
+              mt: 1,
+              borderRadius: 2,
+              px: 2,
+
+              bgcolor: "primary.main",
+              color: "primary.contrastText",
+
+              "&:hover": {
+                bgcolor: "primary.dark",
+              },
+            }}
+          >
+            <PersonOutlineRoundedIcon
               sx={{
-                display: {
-                  xs: "flex",
-                  md: "none",
-                },
+                ml: 1,
+                fontSize: 21,
               }}
-            >
-              <MenuRoundedIcon />
-            </IconButton>
-          </Stack>
-        </Toolbar>
-      </Container>
-    </AppBar>
+            />
+
+            <ListItemText
+              primary="حساب کاربری"
+              primaryTypographyProps={{
+                fontWeight: 600,
+              }}
+            />
+
+            <ArrowBackIosNewRoundedIcon
+              sx={{
+                fontSize: 15,
+              }}
+            />
+          </ListItemButton>
+        </List>
+      </Drawer>
+    </>
   );
 }

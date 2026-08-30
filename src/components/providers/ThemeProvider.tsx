@@ -1,7 +1,9 @@
 "use client";
+
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -18,17 +20,52 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+const STORAGE_KEY = "easyarz-theme";
+
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<ThemeMode>("light");
+  const [mounted, setMounted] = useState(false);
 
-  const theme = useMemo(() => getTheme(mode), [mode]);
+  // Load saved theme once on the client
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem(STORAGE_KEY);
+
+    if (savedTheme === "dark" || savedTheme === "light") {
+      setMode(savedTheme);
+    }
+
+    setMounted(true);
+  }, []);
+
+  // Save theme whenever it changes
+  useEffect(() => {
+    if (!mounted) return;
+
+    window.localStorage.setItem(STORAGE_KEY, mode);
+  }, [mode, mounted]);
+
+  const theme = useMemo(() => {
+    return getTheme(mode);
+  }, [mode]);
 
   const toggleTheme = () => {
-    setMode((current) => (current === "light" ? "dark" : "light"));
+    setMode((currentMode) => {
+      const newMode = currentMode === "light" ? "dark" : "light";
+
+      // Save immediately
+      window.localStorage.setItem(STORAGE_KEY, newMode);
+
+      return newMode;
+    });
   };
 
   return (
-    <ThemeContext.Provider value={{ mode, toggleTheme }}>
+    <ThemeContext.Provider
+      value={{
+        mode,
+        toggleTheme,
+      }}
+    >
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         {children}
