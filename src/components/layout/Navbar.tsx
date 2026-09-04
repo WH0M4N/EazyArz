@@ -127,6 +127,7 @@ export default function Navbar() {
                     px: 1.75,
                     py: 0.75,
                     color: "text.secondary",
+                    fontSize: "16px",
                     fontWeight: 600,
 
                     "&:hover": {
@@ -242,7 +243,6 @@ export default function Navbar() {
       </AppBar>
 
       {/* ================= MOBILE DRAWER ================= */}
-
       <Drawer
         anchor="right"
         open={mobileMenuOpen}
@@ -259,7 +259,6 @@ export default function Navbar() {
         }}
       >
         {/* Drawer Header */}
-
         <Stack
           direction="row"
           alignItems="center"
@@ -333,7 +332,6 @@ export default function Navbar() {
           ))}
 
           {/* Profile */}
-
           <ListItemButton
             component={Link}
             href="/profile"
