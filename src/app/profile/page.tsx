@@ -1,7 +1,5 @@
 "use client";
-
 import { useState } from "react";
-
 import {
   Avatar,
   Box,
@@ -15,14 +13,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import LockRoundedIcon from "@mui/icons-material/LockRounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
-import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
+import { z } from "zod";
 
 export default function AccountProfile() {
   const [firstName, setFirstName] = useState("");
@@ -33,8 +30,76 @@ export default function AccountProfile() {
   const [repeatPassword, setRepeatPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [repeatPasswordError, setRepeatPasswordError] = useState("");
+
+  const profileSchema = z
+    .object({
+      phone: z
+        .string()
+        .regex(/^09\d{9}$/, "شماره موبایل باید ۱۱ رقم و با ۰۹ شروع شود."),
+
+      email: z
+        .string()
+        .email("ایمیل وارد شده معتبر نیست.")
+        .regex(/^[^\s@]+@gmail\.com$/, "ایمیل باید یک آدرس Gmail معتبر باشد."),
+
+      password: z
+        .string()
+        .min(8, "رمز عبور باید حداقل ۸ کاراکتر باشد.")
+        .regex(/[A-Z]/, "رمز عبور باید حداقل یک حرف بزرگ داشته باشد.")
+        .regex(/[a-z]/, "رمز عبور باید حداقل یک حرف کوچک داشته باشد.")
+        .regex(/\d/, "رمز عبور باید حداقل یک عدد داشته باشد.")
+        .regex(
+          /[^A-Za-z0-9]/,
+          "رمز عبور باید حداقل یک کاراکتر خاص داشته باشد.",
+        ),
+
+      repeatPassword: z.string(),
+    })
+    .refine((data) => data.password === data.repeatPassword, {
+      message: "تکرار رمز عبور با رمز عبور یکسان نیست.",
+      path: ["repeatPassword"],
+    });
 
   const handleSave = () => {
+    setPhoneError("");
+    setEmailError("");
+    setPasswordError("");
+    setRepeatPasswordError("");
+
+    const result = profileSchema.safeParse({
+      phone,
+      email,
+      password,
+      repeatPassword,
+    });
+
+    if (!result.success) {
+      result.error.issues.forEach((issue) => {
+        if (issue.path[0] === "phone") {
+          setPhoneError(issue.message);
+        }
+
+        if (issue.path[0] === "email") {
+          setEmailError(issue.message);
+        }
+
+        if (issue.path[0] === "password") {
+          setPasswordError(issue.message);
+        }
+
+        if (issue.path[0] === "repeatPassword") {
+          setRepeatPasswordError(issue.message);
+        }
+      });
+
+      return;
+    }
+
+    // Validation passed
     console.log({
       firstName,
       lastName,
@@ -58,8 +123,6 @@ export default function AccountProfile() {
 
           <Box>
             <Typography
-              variant="h3"
-              fontWeight={800}
               sx={{
                 fontSize: {
                   xs: "2rem",
@@ -242,6 +305,8 @@ export default function AccountProfile() {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="شماره موبایل"
+                      error={!!phoneError}
+                      helperText={phoneError}
                       InputProps={{
                         startAdornment: (
                           <PhoneRoundedIcon
@@ -260,6 +325,8 @@ export default function AccountProfile() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="ایمیل"
+                      error={!!emailError}
+                      helperText={emailError}
                       InputProps={{
                         startAdornment: (
                           <EmailRoundedIcon
@@ -302,11 +369,12 @@ export default function AccountProfile() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="رمز عبور"
+                      error={!!passwordError}
+                      helperText={passwordError}
                       InputProps={{
                         startAdornment: (
                           <LockRoundedIcon
                             sx={{
-                              mr: 2,
                               ml: 2,
                               color: "text.secondary",
                             }}
@@ -335,11 +403,12 @@ export default function AccountProfile() {
                       value={repeatPassword}
                       onChange={(e) => setRepeatPassword(e.target.value)}
                       placeholder="تکرار رمز عبور"
+                      error={!!repeatPasswordError}
+                      helperText={repeatPasswordError}
                       InputProps={{
                         startAdornment: (
                           <LockRoundedIcon
                             sx={{
-                              mr: 2,
                               ml: 2,
                               color: "text.secondary",
                             }}
