@@ -1,6 +1,7 @@
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/Home/Hero";
 import QuickAccess from "@/components/Home/QuickAccess";
+import LatestNews from "@/components/News/LatestNews";
 
 export default function HomePage() {
   return (
@@ -8,7 +9,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <QuickAccess />
-        {/* <MarketPreview /> */}
+        <LatestNews />
       </main>
 
       <Footer />

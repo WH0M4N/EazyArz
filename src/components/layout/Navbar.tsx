@@ -1,10 +1,13 @@
 "use client";
-
 import {
   AppBar,
   Box,
   Button,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Drawer,
   IconButton,
   List,
@@ -22,6 +25,7 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
+import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -45,14 +49,39 @@ const navItems = [
   },
 ];
 
+const upcomingItems = [
+  {
+    label: "هوش مصنوعی",
+    type: "ai",
+  },
+  {
+    label: "قیمت ارزها",
+    type: "prices",
+  },
+];
+
 export default function Navbar() {
   const { mode, toggleTheme } = useAppTheme();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [underConstruction, setUnderConstruction] = useState<string | null>(
+    null,
+  );
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
   };
+
+  const handleUnderConstruction = (type: string) => {
+    setUnderConstruction(type);
+  };
+
+  const closeConstructionDialog = () => {
+    setUnderConstruction(null);
+  };
+
+  const constructionTitle =
+    underConstruction === "ai" ? "هوش مصنوعی" : "قیمت ارزها";
 
   return (
     <>
@@ -106,6 +135,7 @@ export default function Navbar() {
                 }}
               />
             </Box>
+
             {/* Desktop Navigation */}
             <Stack
               direction="row"
@@ -139,11 +169,34 @@ export default function Navbar() {
                   {item.label}
                 </Button>
               ))}
+
+              {/* Upcoming desktop items */}
+              {upcomingItems.map((item) => (
+                <Button
+                  key={item.type}
+                  onClick={() => handleUnderConstruction(item.type)}
+                  sx={{
+                    minWidth: "auto",
+                    px: 1.75,
+                    py: 0.75,
+                    color: "text.secondary",
+                    fontSize: "16px",
+                    fontWeight: 600,
+
+                    "&:hover": {
+                      color: "primary.main",
+                      bgcolor: "transparent",
+                    },
+                  }}
+                >
+                  {item.label}
+                </Button>
+              ))}
             </Stack>
+
             {/* Actions */}
             <Stack direction="row" alignItems="center" spacing={1}>
               {/* Theme */}
-
               <Tooltip title={mode === "light" ? "حالت تاریک" : "حالت روشن"}>
                 <IconButton
                   onClick={toggleTheme}
@@ -173,7 +226,6 @@ export default function Navbar() {
               </Tooltip>
 
               {/* Desktop Profile */}
-
               <Button
                 component={Link}
                 href="/profile"
@@ -210,7 +262,6 @@ export default function Navbar() {
               </Button>
 
               {/* Mobile Menu Button */}
-
               <IconButton
                 onClick={() => setMobileMenuOpen(true)}
                 aria-label="باز کردن منو"
@@ -289,7 +340,6 @@ export default function Navbar() {
         </Stack>
 
         {/* Navigation */}
-
         <List
           disablePadding
           sx={{
@@ -303,6 +353,42 @@ export default function Navbar() {
               component={Link}
               href={item.href}
               onClick={closeMobileMenu}
+              sx={{
+                minHeight: 48,
+                borderRadius: 2,
+                mb: 0.5,
+                px: 2,
+
+                "&:hover": {
+                  bgcolor: "action.hover",
+                  color: "primary.main",
+                },
+              }}
+            >
+              <ListItemText
+                primary={item.label}
+                primaryTypographyProps={{
+                  fontWeight: 600,
+                }}
+              />
+
+              <ArrowBackIosNewRoundedIcon
+                sx={{
+                  fontSize: 15,
+                  color: "text.secondary",
+                }}
+              />
+            </ListItemButton>
+          ))}
+
+          {/* Upcoming mobile items */}
+          {upcomingItems.map((item) => (
+            <ListItemButton
+              key={item.type}
+              onClick={() => {
+                handleUnderConstruction(item.type);
+                closeMobileMenu();
+              }}
               sx={{
                 minHeight: 48,
                 borderRadius: 2,
@@ -372,6 +458,52 @@ export default function Navbar() {
           </ListItemButton>
         </List>
       </Drawer>
+
+      {/* ================= UNDER CONSTRUCTION DIALOG ================= */}
+      <Dialog
+        open={!!underConstruction}
+        onClose={closeConstructionDialog}
+        PaperProps={{
+          sx: {
+            borderRadius: 4,
+            p: 1,
+            width: "100%",
+            maxWidth: 420,
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1.5,
+            fontWeight: 700,
+          }}
+        >
+          <ConstructionRoundedIcon color="primary" />
+
+          {constructionTitle}
+        </DialogTitle>
+
+        <DialogContent>
+          <Typography color="text.secondary" sx={{ lineHeight: 1.9 }}>
+            این بخش در حال توسعه است و به‌زودی در ایزی ارز در دسترس خواهد بود.
+          </Typography>
+        </DialogContent>
+
+        <DialogActions sx={{ px: 2, pb: 1 }}>
+          <Button
+            onClick={closeConstructionDialog}
+            variant="contained"
+            sx={{
+              borderRadius: 2,
+              px: 3,
+            }}
+          >
+            متوجه شدم
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
