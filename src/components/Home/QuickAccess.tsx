@@ -32,11 +32,12 @@ export default function QuickAccess() {
       <Container maxWidth="lg">
         <Stack spacing={1} sx={{ mb: 4 }}>
           <Typography variant="h4" fontWeight={700}>
-            از کجا شروع کنیم؟
+            هدف استارتاپ ما چیست؟{" "}
           </Typography>
 
           <Typography color="text.secondary">
-            همه چیز را ساده و یکجا در اختیار شما قرار داده‌ایم.
+            ایزی ارز با هدف هوشمند سازی افراد جامعه و به روز بودن از اخبار ،
+            ارزش دارایی ها و ساخت سبدمالی به کمک هوش مصنوعی ایجاد شده است.
           </Typography>
         </Stack>
 

@@ -51,12 +51,12 @@ const navItems = [
 
 const upcomingItems = [
   {
-    label: "هوش مصنوعی",
-    type: "ai",
-  },
-  {
     label: "قیمت ارزها",
     type: "prices",
+  },
+  {
+    label: "هوش مصنوعی",
+    type: "ai",
   },
 ];
 
