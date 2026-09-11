@@ -8,8 +8,8 @@ export default function HomePage() {
     <>
       <main>
         <Hero />
-        <QuickAccess />
         <LatestNews />
+        <QuickAccess />
       </main>
 
       <Footer />

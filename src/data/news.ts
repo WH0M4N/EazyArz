@@ -21,7 +21,7 @@ export const newsArticles: NewsArticle[] = [
     title: "نگاهی به وضعیت بازار بیت‌کوین",
     description:
       "بازار بیت‌کوین در روزهای اخیر توجه بسیاری از سرمایه‌گذاران را به خود جلب کرده است.",
-    image: "/images/news/newsPic.jpg",
+    image: "/images/news/newsPic.webp",
     category: "بیت‌کوین",
     date: "۲ شهریور ۱۴۰۵",
     sections: [
@@ -49,7 +49,7 @@ export const newsArticles: NewsArticle[] = [
     title: "تتر چیست و چرا اهمیت دارد؟",
     description:
       "تتر یکی از پرکاربردترین استیبل‌کوین‌های بازار ارز دیجیتال است.",
-    image: "/images/news/newsPic.jpg",
+    image: "/images/news/newsPic.webp",
     category: "ارز دیجیتال",
     date: "۱ شهریور ۱۴۰۵",
     sections: [
@@ -77,7 +77,7 @@ export const newsArticles: NewsArticle[] = [
     title: "چطور بازار ارز دیجیتال را بهتر بشناسیم؟",
     description:
       "شناخت مفاهیم پایه می‌تواند اولین قدم برای ورود آگاهانه‌تر به بازار باشد.",
-    image: "/images/news/newsPic.jpg",
+    image: "/images/news/newsPic.webp",
     category: "آموزشی",
     date: "۳۰ مرداد ۱۴۰۵",
     sections: [
@@ -100,7 +100,7 @@ export const newsArticles: NewsArticle[] = [
     title: "کیف پول ارز دیجیتال چیست؟",
     description:
       "آشنایی با کیف پول‌ها و تفاوت انواع مختلف آن‌ها برای هر کاربر ارز دیجیتال ضروری است.",
-    image: "/images/news/newsPic.jpg",
+    image: "/images/news/newsPic.webp",
     category: "آموزشی",
     date: "۲۸ مرداد ۱۴۰۵",
     sections: [
