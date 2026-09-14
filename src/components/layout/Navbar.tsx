@@ -1,4 +1,5 @@
 "use client";
+
 import {
   AppBar,
   Box,
@@ -14,11 +15,10 @@ import {
   ListItemButton,
   ListItemText,
   Stack,
-  Toolbar,
   Tooltip,
+  Toolbar,
   Typography,
 } from "@mui/material";
-
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
@@ -26,11 +26,9 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
-
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-
 import { useAppTheme } from "../providers/ThemeProvider";
 import logo from "../../assests/Images/logo.png";
 
@@ -43,13 +41,13 @@ const navItems = [
     label: "اخبار",
     href: "/news",
   },
-  {
-    label: "آموزش",
-    href: "/tutorials",
-  },
 ];
 
 const upcomingItems = [
+  {
+    label: "آموزش",
+    type: "tutorials",
+  },
   {
     label: "قیمت ارزها",
     type: "prices",
@@ -80,8 +78,15 @@ export default function Navbar() {
     setUnderConstruction(null);
   };
 
-  const constructionTitle =
-    underConstruction === "ai" ? "هوش مصنوعی" : "قیمت ارزها";
+  const constructionTitles: Record<string, string> = {
+    tutorials: "آموزش",
+    prices: "قیمت ارزها",
+    ai: "هوش مصنوعی",
+  };
+
+  const constructionTitle = underConstruction
+    ? constructionTitles[underConstruction]
+    : "";
 
   return (
     <>
@@ -159,7 +164,6 @@ export default function Navbar() {
                     color: "text.secondary",
                     fontSize: "16px",
                     fontWeight: 600,
-
                     "&:hover": {
                       color: "primary.main",
                       bgcolor: "transparent",
@@ -170,7 +174,6 @@ export default function Navbar() {
                 </Button>
               ))}
 
-              {/* Upcoming desktop items */}
               {upcomingItems.map((item) => (
                 <Button
                   key={item.type}
@@ -182,7 +185,6 @@ export default function Navbar() {
                     color: "text.secondary",
                     fontSize: "16px",
                     fontWeight: 600,
-
                     "&:hover": {
                       color: "primary.main",
                       bgcolor: "transparent",
@@ -207,10 +209,8 @@ export default function Navbar() {
                     border: "1px solid",
                     borderColor: "divider",
                     borderRadius: 2,
-
                     transition:
                       "transform 0.2s ease, background-color 0.2s ease",
-
                     "&:hover": {
                       bgcolor: "action.hover",
                       transform: "rotate(12deg)",
@@ -224,6 +224,26 @@ export default function Navbar() {
                   )}
                 </IconButton>
               </Tooltip>
+
+              {/* Desktop Login */}
+              {/* <Button
+                component={Link}
+                href="/login"
+                variant="outlined"
+                sx={{
+                  minHeight: 38,
+                  px: 2,
+                  borderRadius: 2,
+                  fontWeight: 600,
+                  mx: "8px !important",
+                  display: {
+                    xs: "none",
+                    sm: "inline-flex",
+                  },
+                }}
+              >
+                ورود
+              </Button> */}
 
               {/* Desktop Profile */}
               <Button
@@ -244,14 +264,11 @@ export default function Navbar() {
                   borderRadius: 2,
                   fontWeight: 600,
                   marginX: "12px !important",
-
                   display: {
                     xs: "none",
                     sm: "inline-flex",
                   },
-
                   transition: "transform 0.2s ease, box-shadow 0.2s ease",
-
                   "&:hover": {
                     transform: "translateY(-1px)",
                     boxShadow: "0 5px 14px rgba(15, 118, 110, 0.2)",
@@ -268,18 +285,14 @@ export default function Navbar() {
                 sx={{
                   width: 40,
                   height: 40,
-
                   display: {
                     xs: "flex",
                     md: "none",
                   },
-
                   border: "1px solid",
                   borderColor: "divider",
                   borderRadius: 2,
-
                   transition: "background-color 0.2s ease, transform 0.2s ease",
-
                   "&:hover": {
                     bgcolor: "action.hover",
                     transform: "translateY(-1px)",
@@ -293,7 +306,7 @@ export default function Navbar() {
         </Container>
       </AppBar>
 
-      {/* ================= MOBILE DRAWER ================= */}
+      {/* Mobile Drawer */}
       <Drawer
         anchor="right"
         open={mobileMenuOpen}
@@ -309,7 +322,6 @@ export default function Navbar() {
           },
         }}
       >
-        {/* Drawer Header */}
         <Stack
           direction="row"
           alignItems="center"
@@ -339,7 +351,6 @@ export default function Navbar() {
           </IconButton>
         </Stack>
 
-        {/* Navigation */}
         <List
           disablePadding
           sx={{
@@ -358,7 +369,6 @@ export default function Navbar() {
                 borderRadius: 2,
                 mb: 0.5,
                 px: 2,
-
                 "&:hover": {
                   bgcolor: "action.hover",
                   color: "primary.main",
@@ -381,7 +391,6 @@ export default function Navbar() {
             </ListItemButton>
           ))}
 
-          {/* Upcoming mobile items */}
           {upcomingItems.map((item) => (
             <ListItemButton
               key={item.type}
@@ -394,7 +403,6 @@ export default function Navbar() {
                 borderRadius: 2,
                 mb: 0.5,
                 px: 2,
-
                 "&:hover": {
                   bgcolor: "action.hover",
                   color: "primary.main",
@@ -417,6 +425,37 @@ export default function Navbar() {
             </ListItemButton>
           ))}
 
+          {/* Login */}
+          {/* <ListItemButton
+            component={Link}
+            href="/login"
+            onClick={closeMobileMenu}
+            sx={{
+              minHeight: 48,
+              mt: 1,
+              borderRadius: 2,
+              px: 2,
+              "&:hover": {
+                bgcolor: "action.hover",
+                color: "primary.main",
+              },
+            }}
+          >
+            <ListItemText
+              primary="ورود"
+              primaryTypographyProps={{
+                fontWeight: 600,
+              }}
+            />
+
+            <ArrowBackIosNewRoundedIcon
+              sx={{
+                fontSize: 15,
+                color: "text.secondary",
+              }}
+            />
+          </ListItemButton> */}
+
           {/* Profile */}
           <ListItemButton
             component={Link}
@@ -427,10 +466,8 @@ export default function Navbar() {
               mt: 1,
               borderRadius: 2,
               px: 2,
-
               bgcolor: "primary.main",
               color: "primary.contrastText",
-
               "&:hover": {
                 bgcolor: "primary.dark",
               },
@@ -459,7 +496,7 @@ export default function Navbar() {
         </List>
       </Drawer>
 
-      {/* ================= UNDER CONSTRUCTION DIALOG ================= */}
+      {/* Under Construction Dialog */}
       <Dialog
         open={!!underConstruction}
         onClose={closeConstructionDialog}

@@ -41,7 +41,7 @@ export default function LatestNews() {
     const interval = setInterval(() => {
       setDirection("next");
       setActiveIndex((current) => (current + 1) % articles.length);
-    }, 5000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, [articles.length, isPaused]);
@@ -138,11 +138,9 @@ export default function LatestNews() {
               },
               minHeight: { xs: "auto", md: 420 },
 
-          animation: `${
-  direction === "next"
-    ? "slideFromRight"
-    : "slideFromLeft"
-} 450ms cubic-bezier(0.22, 1, 0.36, 1)`,
+              animation: `${
+                direction === "next" ? "slideFromRight" : "slideFromLeft"
+              } 450ms cubic-bezier(0.22, 1, 0.36, 1)`,
 
               "@keyframes slideFromRight": {
                 from: {
