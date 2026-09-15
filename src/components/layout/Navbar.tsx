@@ -28,7 +28,7 @@ import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRound
 import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppTheme } from "../providers/ThemeProvider";
 import logo from "../../assests/Images/logo.png";
 
@@ -87,6 +87,26 @@ export default function Navbar() {
   const constructionTitle = underConstruction
     ? constructionTitles[underConstruction]
     : "";
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch("/api/auth/status", {
+          cache: "no-store",
+        });
+
+        const data = await response.json();
+
+        setIsLoggedIn(data.authenticated);
+      } catch {
+        setIsLoggedIn(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
 
   return (
     <>
@@ -228,7 +248,7 @@ export default function Navbar() {
               {/* Desktop Login */}
               <Button
                 component={Link}
-                href="/login"
+                href={isLoggedIn ? "/admin" : "/login"}
                 variant="outlined"
                 sx={{
                   minHeight: 38,
@@ -242,7 +262,7 @@ export default function Navbar() {
                   },
                 }}
               >
-                ورود
+                {isLoggedIn ? "پنل مدیریت" : "ورود"}
               </Button>
 
               {/* Desktop Profile */}
@@ -428,7 +448,7 @@ export default function Navbar() {
           {/* Login */}
           <ListItemButton
             component={Link}
-            href="/login"
+            href={isLoggedIn ? "/admin" : "/login"}
             onClick={closeMobileMenu}
             sx={{
               minHeight: 48,
@@ -442,7 +462,7 @@ export default function Navbar() {
             }}
           >
             <ListItemText
-              primary="ورود"
+              primary={isLoggedIn ? "پنل مدیریت" : "ورود"}
               primaryTypographyProps={{
                 fontWeight: 600,
               }}

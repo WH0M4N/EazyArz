@@ -23,8 +23,11 @@ import {
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import ArticleForm, { Article, Category } from "./ArticleForm";
+import { useRouter } from "next/navigation";
 
 export default function ArticleManager() {
+  const router = useRouter();
+
   const [articles, setArticles] = useState<Article[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -65,6 +68,15 @@ export default function ArticleManager() {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", {
+      method: "POST",
+    });
+
+    router.push("/login");
+    router.refresh();
   };
 
   const handleCreateCategory = async () => {
@@ -155,6 +167,10 @@ export default function ArticleManager() {
             onClick={handleAdd}
           >
             افزودن خبر
+          </Button>
+
+          <Button variant="outlined" color="error" onClick={handleLogout}>
+            خروج
           </Button>
         </Stack>
       </Stack>
