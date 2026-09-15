@@ -19,8 +19,8 @@ const items = [
     icon: SchoolOutlinedIcon,
   },
   {
-    title: "قیمت ارزها",
-    description: "مشاهده قیمت لحظه‌ای ارزها؛ به‌زودی.",
+    title: "هوش مصنوعی",
+    description: "تحلیل هوش مصنوعی در راستای کمک به شما",
     href: "#markets",
     icon: TrendingUpOutlinedIcon,
   },

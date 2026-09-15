@@ -7,16 +7,46 @@ import { useTheme } from "@mui/material/styles";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
-import { newsArticles } from "@/data/news";
+
+interface Article {
+  id: number;
+  title: string;
+  slug: string;
+  categoryName: string;
+  contexnt: string;
+  coverImageUrl: string;
+  summary: string;
+}
 
 export default function LatestNews() {
   const theme = useTheme();
 
-  const articles = newsArticles.slice(0, 5);
-
+  const [articles, setArticles] = useState<Article[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [direction, setDirection] = useState<"next" | "prev">("next");
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/API/Articles/GetAllArticles`,
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch articles");
+        }
+
+        const result = await response.json();
+
+        setArticles(result.data?.slice(-3).reverse() ?? []);
+      } catch (error) {
+        console.error("Failed to fetch latest articles:", error);
+      }
+    };
+
+    fetchArticles();
+  }, []);
 
   const nextSlide = () => {
     setDirection("next");
@@ -52,6 +82,7 @@ export default function LatestNews() {
 
   return (
     <Box
+      key={theme.palette.mode}
       component="section"
       sx={{
         py: { xs: 7, md: 10 },
@@ -179,7 +210,7 @@ export default function LatestNews() {
             >
               <Box
                 component="img"
-                src={activeArticle.image}
+                src={activeArticle.coverImageUrl || "images/news/newsPic.webp"}
                 alt={activeArticle.title}
                 sx={{
                   width: "100%",
@@ -243,7 +274,7 @@ export default function LatestNews() {
                     color: "primary.main",
                   }}
                 >
-                  {activeArticle.category}
+                  {activeArticle.categoryName}
                 </Typography>
               </Box>
             </Box>
@@ -298,9 +329,7 @@ export default function LatestNews() {
                     fontSize: "0.8rem",
                     mx: "8px !important",
                   }}
-                >
-                  {activeArticle.date}
-                </Typography>
+                ></Typography>
               </Stack>
 
               {/* Title */}
@@ -344,7 +373,7 @@ export default function LatestNews() {
                   overflow: "hidden",
                 }}
               >
-                {activeArticle.description}
+                {activeArticle.summary}
               </Typography>
 
               {/* Button */}

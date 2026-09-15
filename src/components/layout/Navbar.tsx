@@ -27,10 +27,8 @@ import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAppTheme } from "../providers/ThemeProvider";
-import logo from "../../assests/Images/logo.png";
 
 const navItems = [
   {
@@ -144,21 +142,19 @@ export default function Navbar() {
                 display: "flex",
                 alignItems: "center",
                 textDecoration: "none",
+                color: "primary.main",
                 height: "100%",
               }}
             >
-              <Image
-                src={logo}
-                alt="EasyArz"
-                width={120}
-                height={70}
-                priority
-                style={{
-                  width: "120px",
-                  height: "55px",
-                  objectFit: "contain",
+              <Typography
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: "20px",
+                  textDecoration: "none",
                 }}
-              />
+              >
+                ایزی ارز
+              </Typography>
             </Box>
 
             {/* Desktop Navigation */}

@@ -1,6 +1,6 @@
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import Link from "next/link";
-import { GrFormPrevious } from "react-icons/gr";
+import { Box, Container, Stack, Typography } from "@mui/material";
+// import Link from "next/link";
+// import { GrFormPrevious } from "react-icons/gr";
 
 export default function Hero() {
   return (
@@ -38,20 +38,6 @@ export default function Hero() {
             mx: "auto",
           }}
         >
-          <Box
-            sx={{
-              px: 2,
-              py: 0.75,
-              borderRadius: 10,
-              bgcolor: "rgba(37, 99, 235, 0.08)",
-              color: "primary.main",
-            }}
-          >
-            <Typography variant="body2" fontWeight={600}>
-              دنیای ارز دیجیتال، ساده‌تر از همیشه
-            </Typography>
-          </Box>
-
           <Typography
             component="h1"
             sx={{
@@ -65,12 +51,11 @@ export default function Hero() {
               color: "text.primary",
             }}
           >
-            ارز دیجیتال را
+            دنیای ارز های دیجیتال به زبان{" "}
             <Box component="span" sx={{ color: "primary.main" }}>
               {" "}
-              ساده
-            </Box>{" "}
-            یاد بگیرید
+              ساده{" "}
+            </Box>
           </Typography>
 
           <Typography
@@ -82,11 +67,12 @@ export default function Hero() {
               maxWidth: 620,
             }}
           >
-            اخبار، آموزش و اطلاعات کاربردی درباره ارزهای دیجیتال؛ بدون پیچیدگی و
-            اصطلاحات گیج‌کننده.
+            ارز دیجیتال را با ایزی ارز، آسان یاد بگیرید.
+            <br />
+            اخبار، آموزش و اطلاعات کاربردی بازار برای سرمایه گذاری هوشمند.
           </Typography>
 
-          <Stack
+          {/* <Stack
             direction={{ xs: "column", sm: "row" }}
             spacing={1.5}
             sx={{ pt: 1, gap: 2, alignItems: "center" }}
@@ -137,7 +123,7 @@ export default function Hero() {
             >
               آخرین اخبار
             </Button>
-          </Stack>
+          </Stack> */}
         </Stack>
       </Container>
     </Box>

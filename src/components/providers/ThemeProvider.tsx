@@ -3,7 +3,6 @@
 import {
   createContext,
   useContext,
-  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -22,27 +21,18 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const STORAGE_KEY = "easyarz-theme";
 
+function getInitialMode(): ThemeMode {
+  if (typeof window === "undefined") {
+    return "light";
+  }
+
+  const savedTheme = window.localStorage.getItem(STORAGE_KEY);
+
+  return savedTheme === "dark" || savedTheme === "light" ? savedTheme : "light";
+}
+
 export default function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<ThemeMode>("light");
-  const [mounted, setMounted] = useState(false);
-
-  // Load saved theme once on the client
-  useEffect(() => {
-    const savedTheme = window.localStorage.getItem(STORAGE_KEY);
-
-    if (savedTheme === "dark" || savedTheme === "light") {
-      setMode(savedTheme);
-    }
-
-    setMounted(true);
-  }, []);
-
-  // Save theme whenever it changes
-  useEffect(() => {
-    if (!mounted) return;
-
-    window.localStorage.setItem(STORAGE_KEY, mode);
-  }, [mode, mounted]);
+  const [mode, setMode] = useState<ThemeMode>(getInitialMode);
 
   const theme = useMemo(() => {
     return getTheme(mode);
@@ -52,7 +42,6 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     setMode((currentMode) => {
       const newMode = currentMode === "light" ? "dark" : "light";
 
-      // Save immediately
       window.localStorage.setItem(STORAGE_KEY, newMode);
 
       return newMode;
