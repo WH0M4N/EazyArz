@@ -85,7 +85,7 @@ export default function LoginForm() {
           onChange={(e) => setGmail(e.target.value)}
           placeholder="Gmail"
           required
-          slotProps={{
+          inputProps={{
             input: {
               dir: "ltr",
               startAdornment: (
@@ -104,8 +104,8 @@ export default function LoginForm() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="رمز عبور"
           required
-          slotProps={{
-            input: {
+          inputProps={{
+            inputPropss: {
               dir: "ltr",
               startAdornment: (
                 <InputAdornment position="start">
