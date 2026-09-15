@@ -1,9 +1,23 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import Link from "next/link";
-import { newsArticles } from "@/data/news";
 
-export default function NewsList() {
+type Article = {
+  id: string;
+  title: string;
+  slug: string;
+  categoryName: string;
+  summary: string;
+  coverImageUrl: string;
+};
+
+type NewsListProps = {
+  articles: { 
+    data: Article[]
+  }
+};
+
+export default function NewsList({ articles }: NewsListProps) {
   return (
     <Box
       component="section"
@@ -33,11 +47,11 @@ export default function NewsList() {
             gap: 2.5,
           }}
         >
-          {newsArticles.map((news) => (
+          {articles?.data?.map((article) => (
             <Box
-              key={news.id}
+              key={article.id}
               component={Link}
-              href={`/news/${news.slug}`}
+              href={`/news/${article.slug}`}
               sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -64,8 +78,8 @@ export default function NewsList() {
               {/* Image */}
               <Box
                 component="img"
-                src={news.image}
-                alt={news.title}
+                src={article.coverImageUrl || "/images/news-placeholder.jpg"}
+                alt={article.title}
                 sx={{
                   width: "100%",
                   height: 200,
@@ -83,7 +97,7 @@ export default function NewsList() {
                     fontWeight: 600,
                   }}
                 >
-                  {news.category}
+                  {article.categoryName}
                 </Typography>
 
                 <Typography
@@ -95,7 +109,7 @@ export default function NewsList() {
                     lineHeight: 1.7,
                   }}
                 >
-                  {news.title}
+                  {article.title}
                 </Typography>
 
                 <Typography
@@ -109,7 +123,7 @@ export default function NewsList() {
                     overflow: "hidden",
                   }}
                 >
-                  {news.description}
+                  {article.summary}
                 </Typography>
 
                 <Stack
@@ -119,7 +133,7 @@ export default function NewsList() {
                   sx={{ mt: 2.5 }}
                 >
                   <Typography variant="caption" color="text.secondary">
-                    {news.date}
+                    اخبار
                   </Typography>
 
                   <Stack

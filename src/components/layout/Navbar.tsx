@@ -226,7 +226,7 @@ export default function Navbar() {
               </Tooltip>
 
               {/* Desktop Login */}
-              {/* <Button
+              <Button
                 component={Link}
                 href="/login"
                 variant="outlined"
@@ -243,7 +243,7 @@ export default function Navbar() {
                 }}
               >
                 ورود
-              </Button> */}
+              </Button>
 
               {/* Desktop Profile */}
               <Button
@@ -426,7 +426,7 @@ export default function Navbar() {
           ))}
 
           {/* Login */}
-          {/* <ListItemButton
+          <ListItemButton
             component={Link}
             href="/login"
             onClick={closeMobileMenu}
@@ -454,7 +454,7 @@ export default function Navbar() {
                 color: "text.secondary",
               }}
             />
-          </ListItemButton> */}
+          </ListItemButton>
 
           {/* Profile */}
           <ListItemButton

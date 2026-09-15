@@ -20,6 +20,7 @@ import LockRoundedIcon from "@mui/icons-material/LockRounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 import { z } from "zod";
+import { registerUser } from "@/services/auth.service";
 
 export default function AccountProfile() {
   const [firstName, setFirstName] = useState("");
@@ -64,7 +65,9 @@ export default function AccountProfile() {
       path: ["repeatPassword"],
     });
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    console.log("🔥 BUTTON CLICKED");
+
     setPhoneError("");
     setEmailError("");
     setPasswordError("");
@@ -77,37 +80,40 @@ export default function AccountProfile() {
       repeatPassword,
     });
 
+    console.log("🔥 VALIDATION RESULT:", result);
+
     if (!result.success) {
+      console.log("❌ VALIDATION FAILED:", result.error.issues);
+
       result.error.issues.forEach((issue) => {
-        if (issue.path[0] === "phone") {
-          setPhoneError(issue.message);
-        }
-
-        if (issue.path[0] === "email") {
-          setEmailError(issue.message);
-        }
-
-        if (issue.path[0] === "password") {
-          setPasswordError(issue.message);
-        }
-
-        if (issue.path[0] === "repeatPassword") {
+        if (issue.path[0] === "phone") setPhoneError(issue.message);
+        if (issue.path[0] === "email") setEmailError(issue.message);
+        if (issue.path[0] === "password") setPasswordError(issue.message);
+        if (issue.path[0] === "repeatPassword")
           setRepeatPasswordError(issue.message);
-        }
       });
 
       return;
     }
 
-    // Validation passed
-    console.log({
-      firstName,
-      lastName,
-      phone,
-      email,
-      password,
-      repeatPassword,
-    });
+    console.log("✅ VALIDATION PASSED");
+    console.log("🚀 ABOUT TO CALL REGISTER API");
+
+    try {
+      const response = await registerUser({
+        userName: email,
+        email,
+        password,
+        firstName,
+        lastName,
+        confirmPassword: repeatPassword,
+        phoneNumber: phone,
+      });
+
+      console.log("✅ REGISTER RESPONSE:", response);
+    } catch (error) {
+      console.error("❌ REGISTER ERROR:", error);
+    }
   };
 
   return (

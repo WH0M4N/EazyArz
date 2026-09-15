@@ -2,8 +2,8 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { newsArticles } from "@/data/news";
 import { GrFormPrevious } from "react-icons/gr";
+import { getArticleBySlug } from "@/services/articles.service";
 
 interface NewsDetailPageProps {
   params: {
@@ -11,12 +11,14 @@ interface NewsDetailPageProps {
   };
 }
 
-export default function NewsDetailPage({ params }: NewsDetailPageProps) {
-  const news = newsArticles.find((article) => article.slug === params.slug);
+export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
+  const response = await getArticleBySlug(params.slug);
 
-  if (!news) {
+  if (!response?.data) {
     notFound();
   }
+
+  const news = response.data;
 
   return (
     <Box
@@ -38,7 +40,7 @@ export default function NewsDetailPage({ params }: NewsDetailPageProps) {
       >
         <Box
           component="img"
-          src={news.image}
+          src={news.coverImageUrl || "/images/news-placeholder.jpg"}
           alt={news.title}
           sx={{
             width: "100%",
@@ -50,7 +52,6 @@ export default function NewsDetailPage({ params }: NewsDetailPageProps) {
             objectFit: "cover",
             display: "block",
             borderRadius: { xs: 2.5, md: 4 },
-
             boxShadow: "0 20px 50px rgba(23, 33, 31, 0.12)",
           }}
         />
@@ -59,8 +60,6 @@ export default function NewsDetailPage({ params }: NewsDetailPageProps) {
       {/* ================= ARTICLE ================= */}
 
       <Container maxWidth="md">
-        {/* Header */}
-
         <Stack
           spacing={3}
           sx={{
@@ -87,14 +86,8 @@ export default function NewsDetailPage({ params }: NewsDetailPageProps) {
                 marginLeft: "12px !important",
               }}
             >
-              {news.category}
+              {news.categoryName}
             </Box>
-
-            <Typography variant="body2" color="text.secondary">
-              {news.date}
-            </Typography>
-
-            <Typography color="divider">•</Typography>
 
             <Stack
               direction="row"
@@ -126,7 +119,7 @@ export default function NewsDetailPage({ params }: NewsDetailPageProps) {
             {news.title}
           </Typography>
 
-          {/* Description */}
+          {/* Summary */}
 
           <Box
             sx={{
@@ -149,71 +142,32 @@ export default function NewsDetailPage({ params }: NewsDetailPageProps) {
                 lineHeight: 2.1,
               }}
             >
-              {news.description}
+              {news.summary}
             </Typography>
           </Box>
         </Stack>
 
         {/* ================= CONTENT ================= */}
 
-        <Stack
-          spacing={{ xs: 4, md: 5 }}
+        <Box
           sx={{
             mt: { xs: 6, md: 7 },
           }}
         >
-          {news.sections.map((section, index) => (
-            <Box key={index}>
-              {/* Section title */}
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={1.5}
-                sx={{ mb: 1.5 }}
-              >
-                <Box
-                  sx={{
-                    width: 5,
-                    height: 28,
-                    borderRadius: 5,
-                    bgcolor: "primary.main",
-                    flexShrink: 0,
-                  }}
-                />
-
-                <Typography
-                  component="h2"
-                  sx={{
-                    fontSize: {
-                      xs: "1.25rem",
-                      md: "1.5rem",
-                    },
-                    fontWeight: 700,
-                    lineHeight: 1.6,
-                    px: 2,
-                  }}
-                >
-                  {section.title}
-                </Typography>
-              </Stack>
-
-              {/* Section description */}
-
-              <Typography
-                color="text.secondary"
-                sx={{
-                  fontSize: {
-                    xs: "0.95rem",
-                    md: "1rem",
-                  },
-                  lineHeight: 2.25,
-                }}
-              >
-                {section.description}
-              </Typography>
-            </Box>
-          ))}
-        </Stack>
+          <Typography
+            color="text.secondary"
+            sx={{
+              fontSize: {
+                xs: "0.95rem",
+                md: "1rem",
+              },
+              lineHeight: 2.25,
+              whiteSpace: "pre-wrap",
+            }}
+          >
+            {news.contexnt}
+          </Typography>
+        </Box>
 
         {/* ================= BACK ================= */}
 
@@ -250,6 +204,7 @@ export default function NewsDetailPage({ params }: NewsDetailPageProps) {
                 transition: "transform 0.3s ease",
               }}
             />
+
             <Typography component="span" fontWeight={600}>
               بازگشت به اخبار
             </Typography>
