@@ -4,18 +4,9 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function GET(request: NextRequest) {
   try {
-    const token = request.cookies.get("auth-token")?.value;
-
-    if (!token) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
     const response = await fetch(`${API_URL}/API/Articles/GetAllArticles`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        cache: "no-store",
-      },
+      cache: "no-store",
     });
 
     const data = await response.json();
@@ -24,7 +15,7 @@ export async function GET(request: NextRequest) {
       status: response.status,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Get articles error:", error);
 
     return NextResponse.json(
       { message: "Something went wrong." },

@@ -29,9 +29,7 @@ export default function LatestNews() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/API/Articles/GetAllArticles`,
-        );
+        const response = await fetch("/api/articles");
 
         if (!response.ok) {
           throw new Error("Failed to fetch articles");
