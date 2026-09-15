@@ -47,13 +47,11 @@ export default function ArticleForm({
   onSuccess,
 }: ArticleFormProps) {
   const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [coverImageUrl, setCoverImageUrl] = useState("");
   const [studyTime, setStudyTime] = useState(0);
-  const [status, setStatus] = useState(1);
   const [loading, setLoading] = useState(false);
 
   const isEditing = Boolean(article?.id);
@@ -61,24 +59,24 @@ export default function ArticleForm({
   useEffect(() => {
     if (article) {
       setTitle(article.title || "");
-      setSlug(article.slug || "");
       setSummary(article.summary || "");
       setContent(article.content || "");
       setCategoryId(article.categoryId || "");
       setCoverImageUrl(article.coverImageUrl || "");
       setStudyTime(article.studyTime ?? 0);
-      setStatus(article.status ?? 1);
     } else {
       setTitle("");
-      setSlug("");
       setSummary("");
       setContent("");
       setCategoryId("");
       setCoverImageUrl("");
       setStudyTime(0);
-      setStatus(1);
     }
   }, [article, open]);
+
+  const generateSlug = (value: string) => {
+    return value.trim().replace(/\s+/g, "-");
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,6 +86,8 @@ export default function ArticleForm({
     setLoading(true);
 
     try {
+      const slug = generateSlug(title);
+
       const response = await fetch("/api/admin/articles", {
         method: "POST",
         headers: {
@@ -101,7 +101,7 @@ export default function ArticleForm({
           coverImageUrl,
           studyTime,
           categoryId,
-          status,
+          status: 1,
         }),
       });
 
@@ -131,14 +131,6 @@ export default function ArticleForm({
               label="عنوان"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              fullWidth
-              required
-            />
-
-            <TextField
-              label="Slug"
-              value={slug}
-              onChange={(e) => setSlug(e.target.value)}
               fullWidth
               required
             />
@@ -192,17 +184,6 @@ export default function ArticleForm({
               fullWidth
               inputProps={{ min: 0 }}
             />
-
-            <TextField
-              select
-              label="وضعیت"
-              value={status}
-              onChange={(e) => setStatus(Number(e.target.value))}
-              fullWidth
-            >
-              <MenuItem value={1}>فعال</MenuItem>
-              <MenuItem value={0}>غیرفعال</MenuItem>
-            </TextField>
           </Stack>
         </DialogContent>
 
@@ -212,7 +193,7 @@ export default function ArticleForm({
           <Button
             type="submit"
             variant="contained"
-            disabled={loading || !categoryId}
+            disabled={loading || !categoryId || !title.trim()}
           >
             {loading ? "در حال ذخیره..." : "افزودن خبر"}
           </Button>

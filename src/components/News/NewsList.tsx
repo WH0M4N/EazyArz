@@ -12,9 +12,9 @@ type Article = {
 };
 
 type NewsListProps = {
-  articles: { 
-    data: Article[]
-  }
+  articles: {
+    data: Article[];
+  };
 };
 
 export default function NewsList({ articles }: NewsListProps) {
@@ -78,7 +78,7 @@ export default function NewsList({ articles }: NewsListProps) {
               {/* Image */}
               <Box
                 component="img"
-                src={article.coverImageUrl || "/images/news-placeholder.jpg"}
+                src={article.coverImageUrl || "/images/news/newsPic.webp"}
                 alt={article.title}
                 sx={{
                   width: "100%",

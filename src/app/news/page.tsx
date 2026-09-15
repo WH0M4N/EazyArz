@@ -5,8 +5,6 @@ import { getAllArticles } from "@/services/articles.service";
 export default async function NewsPage() {
   const articles = await getAllArticles();
 
-  console.log("📰 ARTICLES:", articles);
-
   return (
     <>
       <main>

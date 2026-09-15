@@ -40,7 +40,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
       >
         <Box
           component="img"
-          src={news.coverImageUrl || "/images/news-placeholder.jpg"}
+          src={news.coverImageUrl || "/images/news/newsPic.webp"}
           alt={news.title}
           sx={{
             width: "100%",
@@ -165,7 +165,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
               whiteSpace: "pre-wrap",
             }}
           >
-            {news.contexnt}
+            {news.content}
           </Typography>
         </Box>
 
