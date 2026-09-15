@@ -2,12 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const response = await fetch(`${API_URL}/API/Articles/GetAllArticles`, {
-      method: "GET",
-      cache: "no-store",
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/API/Articles/GetAllArticles`,
+      {
+        method: "GET",
+        cache: "no-store",
+      },
+    );
 
     const data = await response.json();
 
@@ -15,7 +18,7 @@ export async function GET(request: NextRequest) {
       status: response.status,
     });
   } catch (error) {
-    console.error("Get articles error:", error);
+    console.error(error);
 
     return NextResponse.json(
       { message: "Something went wrong." },
