@@ -21,8 +21,11 @@ import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 import { z } from "zod";
 import { registerUser } from "@/services/auth.service";
+import { useRouter } from "next/navigation";
+
 
 export default function AccountProfile() {
+  const router = useRouter()
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
@@ -86,11 +89,21 @@ export default function AccountProfile() {
       console.log("❌ VALIDATION FAILED:", result.error.issues);
 
       result.error.issues.forEach((issue) => {
-        if (issue.path[0] === "phone") setPhoneError(issue.message);
-        if (issue.path[0] === "email") setEmailError(issue.message);
-        if (issue.path[0] === "password") setPasswordError(issue.message);
-        if (issue.path[0] === "repeatPassword")
+        if (issue.path[0] === "phone") {
+          setPhoneError(issue.message);
+        }
+
+        if (issue.path[0] === "email") {
+          setEmailError(issue.message);
+        }
+
+        if (issue.path[0] === "password") {
+          setPasswordError(issue.message);
+        }
+
+        if (issue.path[0] === "repeatPassword") {
           setRepeatPasswordError(issue.message);
+        }
       });
 
       return;
@@ -111,6 +124,10 @@ export default function AccountProfile() {
       });
 
       console.log("✅ REGISTER RESPONSE:", response);
+
+      // Registration succeeded.
+      // Now go to the email verification page.
+      router.push(`/account/verify?email=${encodeURIComponent(email)}`);
     } catch (error) {
       console.error("❌ REGISTER ERROR:", error);
     }

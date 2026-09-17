@@ -40,7 +40,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
       >
         <Box
           component="img"
-          src={news.coverImageUrl || "/images/news/newsPic.webp"}
+          src={"/images/news/newsPic.webp"}
           alt={news.title}
           sx={{
             width: "100%",

@@ -78,7 +78,7 @@ export default function NewsList({ articles }: NewsListProps) {
               {/* Image */}
               <Box
                 component="img"
-                src={article.coverImageUrl || "/images/news/newsPic.webp"}
+                src={"/images/news/newsPic.webp"}
                 alt={article.title}
                 sx={{
                   width: "100%",

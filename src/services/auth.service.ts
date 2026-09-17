@@ -1,33 +1,38 @@
 import api from "@/lib/api";
-import {
-  AuthResponse,
-  RegisterRequest,
-  VerifyEmailRequest,
-} from "@/types/auth";
+
+export interface RegisterPayload {
+  userName: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  confirmPassword: string;
+  phoneNumber: string;
+}
+
+export interface VerifyEmailPayload {
+  email: string;
+  code: string;
+}
+
+export interface AuthResponse {
+  status: number;
+  message: string;
+  data?: {
+    accessToken?: string;
+  };
+}
 
 export const registerUser = async (
-  data: RegisterRequest,
+  data: RegisterPayload,
 ): Promise<AuthResponse> => {
-  console.log("🟡 registerUser CALLED");
-  console.log("📦 REGISTER DATA:", data);
+  const response = await api.post<AuthResponse>("/API/Users/Register", data);
 
-  try {
-    console.log("🚀 SENDING POST /API/Users/Register");
-
-    const response = await api.post<AuthResponse>("/API/Users/Register", data);
-
-    console.log("🟢 REGISTER HTTP RESPONSE:", response);
-    console.log("🟢 REGISTER RESPONSE DATA:", response.data);
-
-    return response.data;
-  } catch (error) {
-    console.error("🔴 REGISTER REQUEST FAILED:", error);
-    throw error;
-  }
+  return response.data;
 };
 
 export const verifyEmail = async (
-  data: VerifyEmailRequest,
+  data: VerifyEmailPayload,
 ): Promise<AuthResponse> => {
   const response = await api.post<AuthResponse>("/API/Users/VerifyEmail", data);
 

@@ -210,7 +210,7 @@ export default function LatestNews() {
             >
               <Box
                 component="img"
-                src={activeArticle.coverImageUrl || "images/news/newsPic.webp"}
+                src={"images/news/newsPic.webp"}
                 alt={activeArticle.title}
                 sx={{
                   width: "100%",
