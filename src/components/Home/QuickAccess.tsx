@@ -11,18 +11,21 @@ const items = [
     description: "از اتفاقات مهم بازار ارز دیجیتال باخبر باشید.",
     href: "/news",
     icon: NewspaperOutlinedIcon,
+    disabled: false,
   },
   {
     title: "آموزش",
     description: "مفاهیم ارز دیجیتال را قدم‌به‌قدم یاد بگیرید.",
     href: "/tutorials",
     icon: SchoolOutlinedIcon,
+    disabled: true,
   },
   {
     title: "هوش مصنوعی",
     description: "تحلیل هوش مصنوعی در راستای کمک به شما",
     href: "#markets",
     icon: TrendingUpOutlinedIcon,
+    disabled: true,
   },
 ];
 
@@ -49,7 +52,7 @@ export default function QuickAccess() {
               <Box
                 key={item.title}
                 component={Link}
-                href={item.href}
+                href={!item.disabled ? item.href : "/"}
                 sx={{
                   flex: 1,
                   minHeight: 220,
