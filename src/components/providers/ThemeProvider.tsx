@@ -17,22 +17,21 @@ interface ThemeContextType {
   toggleTheme: () => void;
 }
 
+interface ThemeProviderProps {
+  children: ReactNode;
+  initialMode: ThemeMode;
+}
+
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const STORAGE_KEY = "easyarz-theme";
+const COOKIE_KEY = "easyarz-theme";
 
-function getInitialMode(): ThemeMode {
-  if (typeof window === "undefined") {
-    return "light";
-  }
-
-  const savedTheme = window.localStorage.getItem(STORAGE_KEY);
-
-  return savedTheme === "dark" || savedTheme === "light" ? savedTheme : "light";
-}
-
-export default function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<ThemeMode>(getInitialMode);
+export default function ThemeProvider({
+  children,
+  initialMode,
+}: ThemeProviderProps) {
+  const [mode, setMode] = useState<ThemeMode>(initialMode);
 
   const theme = useMemo(() => {
     return getTheme(mode);
@@ -40,9 +39,13 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
 
   const toggleTheme = () => {
     setMode((currentMode) => {
-      const newMode = currentMode === "light" ? "dark" : "light";
+      const newMode: ThemeMode = currentMode === "light" ? "dark" : "light";
 
       window.localStorage.setItem(STORAGE_KEY, newMode);
+
+      document.cookie = `${COOKIE_KEY}=${newMode}; path=/; max-age=31536000; SameSite=Lax`;
+
+      document.documentElement.style.colorScheme = newMode;
 
       return newMode;
     });

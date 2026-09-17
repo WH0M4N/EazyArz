@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import Script from "next/script";
+import { cookies } from "next/headers";
+
 import Navbar from "@/components/layout/Navbar";
 import ThemeProvider from "@/components/providers/ThemeProvider";
 
@@ -8,35 +9,28 @@ export const metadata: Metadata = {
   description: "پلتفرم آموزش و اطلاعات ارزهای دیجیتال",
 };
 
-const themeScript = `
-(function () {
-  try {
-    var theme = localStorage.getItem("easyarz-theme");
-
-    if (theme === "dark") {
-      document.documentElement.style.colorScheme = "dark";
-    } else {
-      document.documentElement.style.colorScheme = "light";
-    }
-  } catch (e) {}
-})();
-`;
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="fa" dir="rtl">
-      <body>
-        <Script
-          id="theme-script"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: themeScript }}
-        />
+  const cookieStore = cookies();
 
-        <ThemeProvider>
+  const savedTheme = cookieStore.get("easyarz-theme")?.value;
+
+  const initialMode =
+    savedTheme === "dark" || savedTheme === "light" ? savedTheme : "light";
+
+  return (
+    <html
+      lang="fa"
+      dir="rtl"
+      style={{
+        colorScheme: initialMode,
+      }}
+    >
+      <body>
+        <ThemeProvider initialMode={initialMode}>
           <Navbar />
 
           <main>{children}</main>
