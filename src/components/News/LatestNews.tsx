@@ -455,7 +455,7 @@ export default function LatestNews() {
                 },
               }}
             >
-              <ArrowForwardRoundedIcon />
+              <ArrowBackRoundedIcon />
             </IconButton>
           )}
 
@@ -495,7 +495,7 @@ export default function LatestNews() {
                 },
               }}
             >
-              <ArrowBackRoundedIcon />
+              <ArrowForwardRoundedIcon />
             </IconButton>
           )}
         </Box>
