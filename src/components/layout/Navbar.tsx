@@ -29,6 +29,8 @@ import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAppTheme } from "../providers/ThemeProvider";
+import Image from "next/image";
+import Logo from "../../../public/images/logo.png";
 
 const navItems = [
   {
@@ -146,15 +148,13 @@ export default function Navbar() {
                 height: "100%",
               }}
             >
-              <Typography
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "20px",
-                  textDecoration: "none",
-                }}
-              >
-                ایزی ارز
-              </Typography>
+              <Image
+                src={Logo}
+                alt="logo"
+                objectFit="cover"
+                width={90}
+                height={60}
+              />
             </Box>
 
             {/* Desktop Navigation */}
