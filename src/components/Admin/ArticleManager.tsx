@@ -181,7 +181,7 @@ export default function ArticleManager() {
           border: "1px solid",
           borderColor: "divider",
           borderRadius: 3,
-          overflow: "hidden",
+          overflow: "auto",
         }}
       >
         <Table>
