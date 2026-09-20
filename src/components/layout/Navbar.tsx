@@ -44,17 +44,17 @@ const navItems = [
 ];
 
 const upcomingItems = [
+  // {
+  //   label: "آموزش",
+  //   type: "tutorials",
+  // },
+  // {
+  //   label: "قیمت ارزها",
+  //   type: "prices",
+  // },
   {
-    label: "آموزش",
-    type: "tutorials",
-  },
-  {
-    label: "قیمت ارزها",
-    type: "prices",
-  },
-  {
-    label: "هوش مصنوعی",
-    type: "ai",
+    label: "درباره ما",
+    type: "aboutUs",
   },
 ];
 
@@ -151,9 +151,9 @@ export default function Navbar() {
               <Image
                 src={Logo}
                 alt="logo"
-                objectFit="cover"
-                width={90}
-                height={60}
+                objectFit="contain"
+                width={130}
+                height={84}
               />
             </Box>
 
