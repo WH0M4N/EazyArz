@@ -12,7 +12,7 @@ const getTheme = (mode: ThemeMode) =>
       mode,
 
       primary: {
-        main: "#0F766E",
+        main: "#218c83",
         dark: "#115E59",
         light: "#CCFBF1",
         contrastText: "#FFFFFF",

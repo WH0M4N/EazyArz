@@ -43,18 +43,24 @@ const navItems = [
   },
 ];
 
+// hoosh amozesh gheymat arz
+
 const upcomingItems = [
-  // {
-  //   label: "آموزش",
-  //   type: "tutorials",
-  // },
-  // {
-  //   label: "قیمت ارزها",
-  //   type: "prices",
-  // },
+  {
+    label: "آموزش",
+    type: "tutorials",
+  },
+  {
+    label: "قیمت ارزها",
+    type: "prices",
+  },
   {
     label: "درباره ما",
     type: "aboutUs",
+  },
+  {
+    label: "هوش مصنوعی",
+    type: "ai",
   },
 ];
 
